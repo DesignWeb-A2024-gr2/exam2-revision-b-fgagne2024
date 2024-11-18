@@ -36,5 +36,55 @@ function isProduitExiste(codeProduit) {
 // Ajoutez votre code plus bas                                             =
 // =========================================================================
 
+const code = document.getElementById('cle-activation');
+const terme = document.getElementById("declaration");
+const texteDecla = document.querySelector(".label-declaration");
+const erreur = document.getElementById("message-erreur");
+
+function CodeValide(){
+    let valide = false;
+    if(REGEX_CODE_PRODUIT.test(code.value)&&isProduitExiste(code.value))
+    {
+        valide = true;
+         
+    }
+    
+    return valide;
+    
+}
 
 
+function TermeAccepter(){
+    let valide = false;
+    if(terme.checked == true){
+        valide = true;
+        texteDecla.style.color = "#c6d4df";
+    }
+    else{
+        texteDecla.style.color = "rgb(255, 153, 0)";
+    }
+    return valide;
+}
+function MessageErreur(){
+    erreur.classList.add("hidden");
+    if(!TermeAccepter()){
+        erreur.classList.remove("hidden");
+        erreur.innerText = "Vous devez accepter les termes de l’Accord de souscription Vapeur pour finaliser la transaction."
+    }
+    else if(!isProduitExiste(code.value)){
+        erreur.classList.remove("hidden");
+        erreur.innerText = "Aucun produit n'est associé au code de produit saisie."
+
+    }
+    else if(!CodeValide()){
+        erreur.classList.remove("hidden");
+        erreur.innerText = "Le code produit que vous avez saisie est invalide, il ne respecte pas le format requis."
+ 
+    }
+}
+
+function Submit()
+{
+    MessageErreur();
+    return CodeValide()&&TermeAccepter();   
+}
